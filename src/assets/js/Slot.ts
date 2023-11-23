@@ -43,6 +43,18 @@ export default class Slot {
   /** Callback function that runs after spinning reel */
   private onNameListChanged?: NonNullable<SlotConfigurations['onNameListChanged']>;
 
+  public initNames: string[] = Array(200).fill(0).map((_, index) => {
+    if (index === 0) return '001';
+    if (index < 10) {
+      return `00${index + 1}`;
+    // eslint-disable-next-line no-else-return
+    } else if (index < 100) {
+      return `0${index + 1}`;
+    } else {
+      return `${index + 1}`;
+    }
+  });
+
   /**
    * Constructor of Slot
    * @param maxReelItems  Maximum item inside a reel
@@ -61,7 +73,7 @@ export default class Slot {
       onNameListChanged
     }: SlotConfigurations
   ) {
-    this.nameList = [];
+    this.nameList = this.initNames;
     this.havePreviousWinner = false;
     this.reelContainer = document.querySelector(reelContainerSelector);
     this.maxReelItems = maxReelItems;
